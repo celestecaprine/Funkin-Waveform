@@ -30,11 +30,12 @@ class StoryMenuState extends MusicBeatState
 		['Pico', 'Philly', "Blammed"],
 		['Satin-Panties', "High", "Milf"],
 		['Cocoa', 'Eggnog', 'Winter-Horrorland'],
-		['Senpai', 'Roses', 'Thorns']
+		['Senpai', 'Roses', 'Thorns'],
+		['monday', 'tuesday', 'wednesday', 'thursday', 'friday']
 	];
 	var curDifficulty:Int = 1;
 
-	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true];
+	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true, true];
 
 	var weekCharacters:Array<Dynamic> = [
 		['dad', 'bf', 'gf'],
@@ -43,7 +44,8 @@ class StoryMenuState extends MusicBeatState
 		['pico', 'bf', 'gf'],
 		['mom', 'bf', 'gf'],
 		['parents-christmas', 'bf', 'gf'],
-		['senpai', 'bf', 'gf']
+		['senpai', 'bf', 'gf'],
+		['mom', 'bf', 'gf']
 	];
 
 	var weekNames:Array<String> = [
@@ -53,7 +55,8 @@ class StoryMenuState extends MusicBeatState
 		"PICO",
 		"MOMMY MUST MURDER",
 		"RED SNOW",
-		"hating simulator ft. moawling"
+		"hating simulator ft. moawling",
+		"Waveform"
 	];
 
 	var txtWeekTitle:FlxText;
@@ -163,6 +166,9 @@ class StoryMenuState extends MusicBeatState
 				case 'gf':
 					weekCharacterThing.setGraphicSize(Std.int(weekCharacterThing.width * 0.5));
 					weekCharacterThing.updateHitbox();
+				case 'null':
+				weekCharacterThing.setGraphicSize(Std.int(weekCharacterThing.width * 0));
+				weekCharacterThing.updateHitbox();
 				case 'pico':
 					weekCharacterThing.flipX = true;
 				case 'parents-christmas':
