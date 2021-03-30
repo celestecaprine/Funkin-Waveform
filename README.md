@@ -1,15 +1,15 @@
 # Funkin' Waveform
 This is a mod for [Friday Night Funkin](https://ninja-muffin24.itch.io/funkin) featuring Prji and Malachi.
 
-# Credits
+## Credits
 
-## Waveform Devs
+### Waveform Devs
 - [Prji](https://twitter.com/CelesteCaprine) - Composer, Programmer, Writer
 - [Malachi](https://twitter.com/pokemalachi) - Artist
 - Nayols - Programmer
 - [Erika](https://twitter.com/consoleSkunk) - Code contributor
 
-## Original Devs
+### Original Devs
 - [ninjamuffin99](https://twitter.com/ninja_muffin99) - Programmer
 - [PhantomArcade3K](https://twitter.com/phantomarcade3k) and [Evilsk8r](https://twitter.com/evilsk8r) - Art
 - [Kawaisprite](https://twitter.com/kawaisprite) - Musician
@@ -18,7 +18,7 @@ This is a mod for [Friday Night Funkin](https://ninja-muffin24.itch.io/funkin) f
 
 ### Installing the Required Programs
 
-First you need to install Haxe and HaxeFlixel. I'm too lazy to write and keep updated with that setup (which is pretty simple). 
+First you need to install Haxe and HaxeFlixel.
 1. [Install Haxe 4.1.5](https://haxe.org/download/version/4.1.5/) (Download 4.1.5 instead of 4.2.0 because 4.2.0 is broken and is not working with gits properly...)
 2. [Install HaxeFlixel](https://haxeflixel.com/documentation/install-haxeflixel/) after downloading Haxe
 
