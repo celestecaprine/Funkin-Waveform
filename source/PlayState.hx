@@ -587,6 +587,24 @@ class PlayState extends MusicBeatState
 				add(waveSpriteFG);
 			 */
 		}
+		else if (SONG.song.toLowerCase() == 'monday' || SONG.song.toLowerCase() == 'tuesday' || SONG.song.toLowerCase() == 'wednesday' || SONG.song.toLowerCase() == 'thursday' || SONG.song.toLowerCase() == 'friday')
+			{
+				defaultCamZoom = 0.9;
+			curStage = 'booth';
+			var boothbg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('boothback'));
+			boothbg.antialiasing = true;
+			boothbg.scrollFactor.set(0.9, 0.9);
+			boothbg.active = false;
+			add(boothbg);
+
+			var boothFront:FlxSprite = new FlxSprite(-650, 600).loadGraphic(Paths.image('boothfront'));
+			boothFront.setGraphicSize(Std.int(boothFront.width * 1.1));
+			boothFront.updateHitbox();
+			boothFront.antialiasing = true;
+			boothFront.scrollFactor.set(0.9, 0.9);
+			boothFront.active = false;
+			add(boothFront);
+			}
 		else
 		{
 			defaultCamZoom = 0.9;
