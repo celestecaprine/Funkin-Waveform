@@ -249,15 +249,34 @@ class DialogueBox extends FlxSpriteGroup
 				portraitRight.visible = false;
 				if (!portraitLeft.visible)
 				{
+					portraitLeft.destroy();
+					portraitLeft = new FlxSprite(100, 80);
+					swagDialogue.setFormat("Determination Sans Web Regular", 42);
+					portraitLeft.frames = Paths.getSparrowAtlas('dialogue/dadPortrait');
+					portraitLeft.animation.addByPrefix('enter', 'Dad portrait enter', 24, false);
+					portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.15));
+					portraitLeft.updateHitbox();
+					portraitLeft.scrollFactor.set();
+					add(portraitLeft);
 					portraitLeft.visible = true;
 					portraitLeft.animation.play('enter');
-					switch(dadVar)
-					{
-						case 'dad': swagDialogue.setFormat("Determination Sans Web Regular", 42);
-						case 'mom': swagDialogue.setFormat("Animal Crossing: Wild World Regular", 48);
-						default: swagDialogue.setFormat("Determination Sans Web Regular", 42);
-					}
 				}
+				case 'prji':
+					portraitRight.visible = false;
+					if (!portraitLeft.visible)
+					{
+						portraitLeft.destroy();
+						portraitLeft = new FlxSprite(-20, 40);
+						swagDialogue.setFormat("Determination Sans Web Regular", 24);
+						portraitLeft.frames = Paths.getSparrowAtlas('dialogue/senpaiPortrait');
+						portraitLeft.animation.addByPrefix('enter', 'Senpai Portrait Enter', 24, false);
+						portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.9));
+						portraitLeft.updateHitbox();
+						portraitLeft.scrollFactor.set();
+						add(portraitLeft);
+						portraitLeft.visible = true;
+						portraitLeft.animation.play('enter');
+					}
 			case 'bf':
 				portraitLeft.visible = false;
 				if (!portraitRight.visible)
