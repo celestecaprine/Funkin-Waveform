@@ -27,8 +27,7 @@ class OptionsMenu extends MusicBeatState
 		#if !mobile
 		new FPSOption(),
 		#end
-		new EtternaModeOption(),
-		new ReplayOption()
+		new EtternaModeOption()
 	];
 
 	private var grpControls:FlxTypedGroup<Alphabet>;
