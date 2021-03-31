@@ -143,7 +143,7 @@ class DialogueBox extends FlxSpriteGroup
 		add(dropText); */
 
 		swagDialogue = new FlxTypeText(240, 500, Std.int(FlxG.width * 0.6), "", 32);
-		swagDialogue.font = 'VCR OSD Mono';
+		swagDialogue.setFormat("VCR OSD Mono", 42);
 		swagDialogue.color = 0xFFFFFF;
 		swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pixelText'), 0.6)];
 		add(swagDialogue);
@@ -229,6 +229,9 @@ class DialogueBox extends FlxSpriteGroup
 
 	var isEnding:Bool = false;
 
+
+	var dadVar:String = PlayState.dad.curCharacter;
+
 	function startDialogue():Void
 	{
 		cleanDialog();
@@ -248,6 +251,12 @@ class DialogueBox extends FlxSpriteGroup
 				{
 					portraitLeft.visible = true;
 					portraitLeft.animation.play('enter');
+					switch(dadVar)
+					{
+						case 'dad': swagDialogue.setFormat("Determination Sans Web Regular", 42);
+						case 'mom': swagDialogue.setFormat("Animal Crossing: Wild World Regular", 48);
+						default: swagDialogue.setFormat("Determination Sans Web Regular", 42);
+					}
 				}
 			case 'bf':
 				portraitLeft.visible = false;
@@ -255,6 +264,7 @@ class DialogueBox extends FlxSpriteGroup
 				{
 					portraitRight.visible = true;
 					portraitRight.animation.play('enter');
+					swagDialogue.setFormat("Comic Sans MS", 36);
 				}
 		}
 	}

@@ -79,7 +79,7 @@ class PlayState extends MusicBeatState
 
 	private var vocals:FlxSound;
 
-	private var dad:Character;
+	public static var dad:Character;
 	private var gf:Character;
 	private var boyfriend:Boyfriend;
 

@@ -64,7 +64,6 @@ class FreeplayState extends MusicBeatState
 		#end
 
 			addWeek(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], 1, ['mom']);
-
 		// LOAD MUSIC
 
 		// LOAD CHARACTERS
