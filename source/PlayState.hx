@@ -268,6 +268,8 @@ class PlayState extends MusicBeatState
 					"If you can beat me here...",
 					"Only then I will even CONSIDER letting you\ndate my daughter!"
 				];
+			case 'monday':
+				dialogue = CoolUtil.coolTextFile(Paths.txt('monday/mondayDialogue'));
 			case 'senpai':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('senpai/senpaiDialogue'));
 			case 'roses':
@@ -956,7 +958,10 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
+		new FlxTimer().start(2, function(tmr:FlxTimer)
+			{
 			startCountdown();
+			});
 		}
 	}
 
