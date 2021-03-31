@@ -923,8 +923,11 @@ class PlayState extends MusicBeatState
 					schoolIntro(doof);
 				case 'thorns':
 					schoolIntro(doof);
+				case 'monday':
+					mainIntro(doof);
 				default:
 					startCountdown();
+				
 			}
 		}
 		else
@@ -941,6 +944,22 @@ class PlayState extends MusicBeatState
 
 		super.create();
 	}
+	function mainIntro(?dialogueBox:DialogueBox):Void
+	{
+		if (dialogueBox != null)
+		{
+			inCutscene = true;
+			{
+				add(dialogueBox);
+			}
+
+		}
+		else
+		{
+			startCountdown();
+		}
+	}
+
 
 	function schoolIntro(?dialogueBox:DialogueBox):Void
 	{
