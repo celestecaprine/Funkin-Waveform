@@ -245,12 +245,13 @@ class DialogueBox extends FlxSpriteGroup
 
 		switch (curCharacter)
 		{
-			case 'dad':
+			case 'prji':
 				portraitRight.visible = false;
 				if (!portraitLeft.visible)
 				{
+					swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pepSpeak'), 0.6)];
 					portraitLeft.destroy();
-					portraitLeft = new FlxSprite(100, 80);
+					portraitLeft = new FlxSprite(100, 77);
 					swagDialogue.setFormat("Determination Sans Web Regular", 42);
 					portraitLeft.frames = Paths.getSparrowAtlas('dialogue/dadPortrait');
 					portraitLeft.animation.addByPrefix('enter', 'Dad portrait enter', 24, false);
@@ -261,13 +262,31 @@ class DialogueBox extends FlxSpriteGroup
 					portraitLeft.visible = true;
 					portraitLeft.animation.play('enter');
 				}
-				case 'prji':
+				case 'malachi':
 					portraitRight.visible = false;
 					if (!portraitLeft.visible)
 					{
+						swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pepSpeak'), 0.6)];
 						portraitLeft.destroy();
-						portraitLeft = new FlxSprite(-20, 40);
-						swagDialogue.setFormat("Determination Sans Web Regular", 24);
+						portraitLeft = new FlxSprite(100, 150);
+						swagDialogue.setFormat("IsWasted", 36);
+						portraitLeft.frames = Paths.getSparrowAtlas('dialogue/malachiPortrait');
+						portraitLeft.animation.addByPrefix('enter', 'Malachi portrait enter', 24, false);
+						portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.05));
+						portraitLeft.updateHitbox();
+						portraitLeft.scrollFactor.set();
+						add(portraitLeft);
+						portraitLeft.visible = true;
+						portraitLeft.animation.play('enter');
+					}
+				/* case 'prji':
+					portraitRight.visible = false;
+					if (!portraitLeft.visible)
+					{
+						swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pepSpeak'), 0.6)];
+						portraitLeft.destroy();
+						portraitLeft = new FlxSprite(-20, 60);
+						swagDialogue.setFormat("Determination Sans Web Regular", 42);
 						portraitLeft.frames = Paths.getSparrowAtlas('dialogue/senpaiPortrait');
 						portraitLeft.animation.addByPrefix('enter', 'Senpai Portrait Enter', 24, false);
 						portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.9));
@@ -276,8 +295,9 @@ class DialogueBox extends FlxSpriteGroup
 						add(portraitLeft);
 						portraitLeft.visible = true;
 						portraitLeft.animation.play('enter');
-					}
+					} */
 			case 'bf':
+				swagDialogue.sounds = [FlxG.sound.load(Paths.sound('bfSpeak'), 0.6)];
 				portraitLeft.visible = false;
 				if (!portraitRight.visible)
 				{
