@@ -251,11 +251,11 @@ class DialogueBox extends FlxSpriteGroup
 				{
 					swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pepSpeak'), 0.6)];
 					portraitLeft.destroy();
-					portraitLeft = new FlxSprite(100, 77);
+					portraitLeft = new FlxSprite(100, 106);
 					swagDialogue.setFormat("Determination Sans Web Regular", 42);
-					portraitLeft.frames = Paths.getSparrowAtlas('dialogue/dadPortrait');
-					portraitLeft.animation.addByPrefix('enter', 'Dad portrait enter', 24, false);
-					portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.15));
+					portraitLeft.frames = Paths.getSparrowAtlas('dialogue/prjiPortrait');
+					portraitLeft.animation.addByPrefix('enter', 'Prji portrait enter', 24, false);
+					portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.05));
 					portraitLeft.updateHitbox();
 					portraitLeft.scrollFactor.set();
 					add(portraitLeft);
