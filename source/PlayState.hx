@@ -1767,7 +1767,7 @@ class PlayState extends MusicBeatState
 
 				if (SONG.song.toLowerCase() == 'tutorial')
 				{
-					tweenCamIn();
+					//tweenCamIn();
 				}
 			}
 

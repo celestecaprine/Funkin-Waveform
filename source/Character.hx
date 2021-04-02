@@ -391,6 +391,22 @@ class Character extends FlxSprite
 				antialiasing = false;
 
 				flipX = true;
+			case 'mario':
+				tex = Paths.getSparrowAtlas('mario');
+				frames = tex;
+				animation.addByPrefix('idle', 'Mario idle dance', 24);
+				animation.addByPrefix('singUP', 'Mario Sing note UP', 24);
+				animation.addByPrefix('singRIGHT', 'Mario Sing note RIGHT', 24);
+				animation.addByPrefix('singDOWN', 'Mario Sing note DOWN', 24);
+				animation.addByPrefix('singLEFT', 'Mario Sing note LEFT', 24);
+
+				addOffset('idle');
+				addOffset("singUP", 23, -4);
+				addOffset("singRIGHT", -8, -28);
+				addOffset("singLEFT", -1, -20);
+				addOffset("singDOWN", 31, -13);
+
+				playAnim('idle');
 			case 'bf-pixel-dead':
 				frames = Paths.getSparrowAtlas('weeb/bfPixelsDEAD');
 				animation.addByPrefix('singUP', "BF Dies pixel", 24, false);
