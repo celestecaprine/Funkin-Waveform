@@ -962,10 +962,7 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-		new FlxTimer().start(2, function(tmr:FlxTimer)
-			{
 			startCountdown();
-			});
 		}
 	}
 

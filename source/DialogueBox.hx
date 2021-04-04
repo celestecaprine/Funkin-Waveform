@@ -11,7 +11,6 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 
 using StringTools;
-
 class DialogueBox extends FlxSpriteGroup
 {
 	var box:FlxSprite;
@@ -30,6 +29,7 @@ class DialogueBox extends FlxSpriteGroup
 
 	var portraitLeft:FlxSprite;
 	var portraitRight:FlxSprite;
+	var portraitLeftName:String = '';
 
 
 	var bgFade:FlxSprite;
@@ -254,10 +254,7 @@ class DialogueBox extends FlxSpriteGroup
 		switch (curCharacter)
 		{
 			case 'prji':
-				portraitLeft.visible = false;
-				portraitRight.visible = false;
-				if (!portraitLeft.visible)
-				{
+				portraitRight.visible = false;	
 					swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pepSpeak'), 0.6)];
 					portraitLeft.setPosition(100, 106);
 					swagDialogue.setFormat("Determination Sans Web Regular", 42);
@@ -268,13 +265,17 @@ class DialogueBox extends FlxSpriteGroup
 					portraitLeft.scrollFactor.set();
 					add(portraitLeft);
 					portraitLeft.visible = true;
-					portraitLeft.animation.play('enter');
-				}
+					if (portraitLeftName != "prji")
+						{
+							portraitLeft.animation.play('enter');
+							portraitLeftName = "prji";
+						}
+					else
+						portraitLeft.animation.play('enter', false, false, portraitLeft.animation.frames);
+
 				case 'malachi':
 					portraitLeft.visible = false;
 					portraitRight.visible = false;
-					if (!portraitLeft.visible)
-					{
 						swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pepSpeak'), 0.6)];
 						portraitLeft.setPosition(100, 150);
 						swagDialogue.setFormat("IsWasted", 36);
@@ -285,8 +286,14 @@ class DialogueBox extends FlxSpriteGroup
 						portraitLeft.scrollFactor.set();
 						add(portraitLeft);
 						portraitLeft.visible = true;
-						portraitLeft.animation.play('enter');
-					}
+						if (portraitLeftName != "malachi")
+							{
+								portraitLeft.animation.play('enter');
+								portraitLeftName = "malachi";
+							}
+							else
+								portraitLeft.animation.play('enter', false, false, portraitLeft.animation.frames);
+
 				case 'dad':
 					portraitLeft.visible = false;
 					portraitRight.visible = false;
