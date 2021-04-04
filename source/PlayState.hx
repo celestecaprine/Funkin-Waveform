@@ -270,6 +270,8 @@ class PlayState extends MusicBeatState
 				];
 			case 'monday':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('monday/mondayDialogue'));
+			case 'tuesday':
+				dialogue = CoolUtil.coolTextFile(Paths.txt('tuesday/tuesdayDialogue'));
 			case 'senpai':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('senpai/senpaiDialogue'));
 			case 'roses':
@@ -926,6 +928,8 @@ class PlayState extends MusicBeatState
 				case 'thorns':
 					schoolIntro(doof);
 				case 'monday':
+					mainIntro(doof);
+				case 'tuesday':
 					mainIntro(doof);
 				default:
 					startCountdown();

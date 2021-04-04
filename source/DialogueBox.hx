@@ -43,6 +43,9 @@ class DialogueBox extends FlxSpriteGroup
  			case 'monday':
 				FlxG.sound.playMusic(Paths.music('dialogueloop'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8); 
+			case 'tuesday':
+				FlxG.sound.playMusic(Paths.music('dialogueloop2'), 0);
+				FlxG.sound.music.fadeIn(1, 0, 0.8); 
 			case 'senpai':
 				FlxG.sound.playMusic(Paths.music('Lunchbox'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8);
@@ -69,6 +72,11 @@ class DialogueBox extends FlxSpriteGroup
 		switch (PlayState.SONG.song.toLowerCase())
 		{
 			case 'monday':
+				hasDialog = true;
+				box.frames = Paths.getSparrowAtlas('dialogue/dialogueBox');
+				box.animation.addByPrefix('normalOpen', 'Textbox spawn', 24, false);
+				box.animation.addByIndices('normal', 'Textbox spawn', [4], "", 24);
+			case 'tuesday':
 				hasDialog = true;
 				box.frames = Paths.getSparrowAtlas('dialogue/dialogueBox');
 				box.animation.addByPrefix('normalOpen', 'Textbox spawn', 24, false);
@@ -246,12 +254,12 @@ class DialogueBox extends FlxSpriteGroup
 		switch (curCharacter)
 		{
 			case 'prji':
+				portraitLeft.visible = false;
 				portraitRight.visible = false;
 				if (!portraitLeft.visible)
 				{
 					swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pepSpeak'), 0.6)];
-					portraitLeft.destroy();
-					portraitLeft = new FlxSprite(100, 106);
+					portraitLeft.setPosition(100, 106);
 					swagDialogue.setFormat("Determination Sans Web Regular", 42);
 					portraitLeft.frames = Paths.getSparrowAtlas('dialogue/prjiPortrait');
 					portraitLeft.animation.addByPrefix('enter', 'Prji portrait enter', 24, false);
@@ -263,16 +271,33 @@ class DialogueBox extends FlxSpriteGroup
 					portraitLeft.animation.play('enter');
 				}
 				case 'malachi':
+					portraitLeft.visible = false;
 					portraitRight.visible = false;
 					if (!portraitLeft.visible)
 					{
 						swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pepSpeak'), 0.6)];
-						portraitLeft.destroy();
-						portraitLeft = new FlxSprite(100, 150);
+						portraitLeft.setPosition(100, 150);
 						swagDialogue.setFormat("IsWasted", 36);
 						portraitLeft.frames = Paths.getSparrowAtlas('dialogue/malachiPortrait');
 						portraitLeft.animation.addByPrefix('enter', 'Malachi portrait enter', 24, false);
 						portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.05));
+						portraitLeft.updateHitbox();
+						portraitLeft.scrollFactor.set();
+						add(portraitLeft);
+						portraitLeft.visible = true;
+						portraitLeft.animation.play('enter');
+					}
+				case 'dad':
+					portraitLeft.visible = false;
+					portraitRight.visible = false;
+					if (!portraitLeft.visible)
+					{
+						swagDialogue.sounds = [FlxG.sound.load(Paths.sound('pepSpeak'), 0.6)];
+						portraitLeft.setPosition(100, 80);
+						swagDialogue.setFormat("Determination Sans Web Regular", 42);
+						portraitLeft.frames = Paths.getSparrowAtlas('dialogue/dadPortrait');
+						portraitLeft.animation.addByPrefix('enter', 'Dad portrait enter', 24, false);
+						portraitLeft.setGraphicSize(Std.int(portraitLeft.width * PlayState.daPixelZoom * 0.15));
 						portraitLeft.updateHitbox();
 						portraitLeft.scrollFactor.set();
 						add(portraitLeft);
