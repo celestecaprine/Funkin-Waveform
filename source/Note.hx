@@ -33,6 +33,8 @@ class Note extends FlxSprite
 	public static var BLUE_NOTE:Int = 1;
 	public static var RED_NOTE:Int = 3;
 
+	public var rating:String = "shit";
+
 	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false)
 	{
 		super();
@@ -51,6 +53,9 @@ class Note extends FlxSprite
 		y -= 2000;
 		this.strumTime = strumTime + FlxG.save.data.offset;
 
+		if (this.strumTime < 0 )
+			this.strumTime = 0;
+
 		this.noteData = noteData;
 
 		var daStage:String = PlayState.curStage;
@@ -64,28 +69,20 @@ class Note extends FlxSprite
 				animation.add('redScroll', [7]);
 				animation.add('blueScroll', [5]);
 				animation.add('purpleScroll', [4]);
-				
-				animation.add('purplehold', [0]);
-				animation.add('greenhold', [2]);
-				animation.add('redhold', [3]);
-				animation.add('bluehold', [1]);
-				
+
 				if (isSustainNote)
 				{
 					loadGraphic(Paths.image('weeb/pixelUI/arrowEnds'), true, 7, 6);
 
-					if(!FlxG.save.data.downscroll)
-					{
-						animation.add('purpleholdend', [4]);
-						animation.add('greenholdend', [6]);
-						animation.add('redholdend', [7]);
-						animation.add('blueholdend', [5]);
-					}else {
-						animation.add('purpleholdend', [4], 0, false, false, true);
-						animation.add('greenholdend', [6], 0, false, false, true);
-						animation.add('redholdend', [7], 0, false, false, true);
-						animation.add('blueholdend', [5], 0, false, false, true);
-					}
+					animation.add('purpleholdend', [4]);
+					animation.add('greenholdend', [6]);
+					animation.add('redholdend', [7]);
+					animation.add('blueholdend', [5]);
+
+					animation.add('purplehold', [0]);
+					animation.add('greenhold', [2]);
+					animation.add('redhold', [3]);
+					animation.add('bluehold', [1]);
 				}
 
 				setGraphicSize(Std.int(width * PlayState.daPixelZoom));
@@ -98,24 +95,16 @@ class Note extends FlxSprite
 				animation.addByPrefix('redScroll', 'red0');
 				animation.addByPrefix('blueScroll', 'blue0');
 				animation.addByPrefix('purpleScroll', 'purple0');
-				
+
+				animation.addByPrefix('purpleholdend', 'pruple end hold');
+				animation.addByPrefix('greenholdend', 'green hold end');
+				animation.addByPrefix('redholdend', 'red hold end');
+				animation.addByPrefix('blueholdend', 'blue hold end');
+
 				animation.addByPrefix('purplehold', 'purple hold piece');
 				animation.addByPrefix('greenhold', 'green hold piece');
 				animation.addByPrefix('redhold', 'red hold piece');
 				animation.addByPrefix('bluehold', 'blue hold piece');
-				
-				if(!FlxG.save.data.downscroll)
-				{
-					animation.addByPrefix('purpleholdend', 'pruple end hold');
-					animation.addByPrefix('greenholdend', 'green hold end');
-					animation.addByPrefix('redholdend', 'red hold end');
-					animation.addByPrefix('blueholdend', 'blue hold end');
-				}else {
-					animation.addByPrefix('purpleholdend', 'pruple end hold', 0, false, false, true);
-					animation.addByPrefix('greenholdend', 'green hold end', 0, false, false, true);
-					animation.addByPrefix('redholdend', 'red hold end', 0, false, false, true);
-					animation.addByPrefix('blueholdend', 'blue hold end', 0, false, false, true);
-				}
 
 				setGraphicSize(Std.int(width * 0.7));
 				updateHitbox();
@@ -138,7 +127,14 @@ class Note extends FlxSprite
 				animation.play('redScroll');
 		}
 
-		
+		// trace(prevNote);
+
+		// we make sure its downscroll and its a SUSTAIN NOTE (aka a trail, not a note)
+		// and flip it so it doesn't look weird.
+		// THIS DOESN'T FUCKING FLIP THE NOTE, CONTRIBUTERS DON'T JUST COMMENT THIS OUT JESUS
+		if (FlxG.save.data.downscroll && sustainNote) 
+			flipY = true;
+
 		if (isSustainNote && prevNote != null)
 		{
 			noteScore * 0.2;
@@ -179,7 +175,7 @@ class Note extends FlxSprite
 						prevNote.animation.play('redhold');
 				}
 
-				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;
+				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.8 * PlayState.SONG.speed;
 				prevNote.updateHitbox();
 				// prevNote.setGraphicSize();
 			}

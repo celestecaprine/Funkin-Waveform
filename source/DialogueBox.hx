@@ -238,7 +238,6 @@ class DialogueBox extends FlxSpriteGroup
 	var isEnding:Bool = false;
 
 
-	var dadVar:String = PlayState.dad.curCharacter;
 
 	function startDialogue():Void
 	{
