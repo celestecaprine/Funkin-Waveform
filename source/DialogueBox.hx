@@ -221,6 +221,7 @@ class DialogueBox extends FlxSpriteGroup
 					new FlxTimer().start(1.2, function(tmr:FlxTimer)
 					{
 						finishThing();
+						swagDialogue.sounds = [FlxG.sound.load(Paths.sound('silence'), 0)];
 						kill();
 					});
 				}
