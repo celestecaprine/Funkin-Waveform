@@ -603,7 +603,7 @@ class PlayState extends MusicBeatState
 			}
 		case 'monday'|'tuesday'|'wednesday'|'thursday'|'friday':
 			{
-				defaultCamZoom = 0.9;
+				defaultCamZoom = 0.8;
 			curStage = 'booth';
 			var boothbg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('boothback'));
 			boothbg.antialiasing = true;
@@ -651,6 +651,7 @@ class PlayState extends MusicBeatState
 
 		switch (curStage)
 		{
+			
 			case 'limo':
 				gfVersion = 'gf-car';
 			case 'mall' | 'mallEvil':
@@ -659,6 +660,8 @@ class PlayState extends MusicBeatState
 				gfVersion = 'gf-pixel';
 			case 'schoolEvil':
 				gfVersion = 'gf-pixel';
+			case 'booth':
+				gfVersion = 'gf-null';
 		}
 
 		if (curStage == 'limo')
@@ -973,6 +976,7 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
+			
 			startCountdown();
 		}
 	}
