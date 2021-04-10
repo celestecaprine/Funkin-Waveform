@@ -282,8 +282,8 @@ class PlayState extends MusicBeatState
 					"If you can beat me here...",
 					"Only then I will even CONSIDER letting you\ndate my daughter!"
 				];
-			case 'monday':
-				dialogue = CoolUtil.coolTextFile(Paths.txt('monday/mondayDialogue'));
+			case 'goat':
+				dialogue = CoolUtil.coolTextFile(Paths.txt('goat/goatDialogue'));
 			case 'tuesday':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('tuesday/tuesdayDialogue'));
 			case 'senpai':
@@ -601,7 +601,7 @@ class PlayState extends MusicBeatState
 								add(waveSpriteFG);
 						*/
 			}
-		case 'monday'|'tuesday'|'wednesday'|'thursday'|'friday':
+		case 'goat':
 			{
 				defaultCamZoom = 0.8;
 			curStage = 'booth';
@@ -942,7 +942,7 @@ class PlayState extends MusicBeatState
 					schoolIntro(doof);
 				case 'thorns':
 					schoolIntro(doof);
-				case 'monday':
+				case 'goat':
 					mainIntro(doof);
 				case 'tuesday':
 					mainIntro(doof);

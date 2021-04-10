@@ -40,7 +40,7 @@ class DialogueBox extends FlxSpriteGroup
 
 		switch (PlayState.SONG.song.toLowerCase())
 		{
- 			case 'monday':
+ 			case 'goat':
 				FlxG.sound.playMusic(Paths.music('dialogueloop'), 0);
 				FlxG.sound.music.fadeIn(1, 0, 0.8); 
 			case 'tuesday':
@@ -71,7 +71,7 @@ class DialogueBox extends FlxSpriteGroup
 		var hasDialog = false;
 		switch (PlayState.SONG.song.toLowerCase())
 		{
-			case 'monday':
+			case 'goat':
 				hasDialog = true;
 				box.frames = Paths.getSparrowAtlas('dialogue/dialogueBox');
 				box.animation.addByPrefix('normalOpen', 'Textbox spawn', 24, false);
@@ -205,7 +205,7 @@ class DialogueBox extends FlxSpriteGroup
 				{
 					isEnding = true;
 
-					if (PlayState.SONG.song.toLowerCase() == 'senpai' || PlayState.SONG.song.toLowerCase() == 'thorns' || PlayState.SONG.song.toLowerCase() == 'monday')
+					if (PlayState.SONG.song.toLowerCase() == 'senpai' || PlayState.SONG.song.toLowerCase() == 'thorns' || PlayState.SONG.song.toLowerCase() == 'goat')
 						FlxG.sound.music.fadeOut(2.2, 0);
 
 					new FlxTimer().start(0.2, function(tmr:FlxTimer)
