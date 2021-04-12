@@ -150,11 +150,15 @@ class TitleState extends MusicBeatState
 		Conductor.changeBPM(102);
 		persistentUpdate = true;
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		var bg:FlxSprite = new FlxSprite();
+		bg.loadGraphic(Paths.image('titleBG'));
+		bg.screenCenter();
 		// bg.antialiasing = true;
 		// bg.setGraphicSize(Std.int(bg.width * 0.6));
 		// bg.updateHitbox();
 		add(bg);
+		
+
 
 		logoBl = new FlxSprite(250,50);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
