@@ -24,9 +24,11 @@ class FreeplayState extends MusicBeatState
 	var selector:FlxText;
 	var curSelected:Int = 0;
 	var curDifficulty:Int = 1;
+	var curFCMode:Int = 0;
 
 	var scoreText:FlxText;
 	var diffText:FlxText;
+	var fctoggleText:FlxText;
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
 
@@ -96,10 +98,13 @@ class FreeplayState extends MusicBeatState
 
 		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
 		// scoreText.autoSize = false;
-		scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
+		scoreText.setFormat(Paths.font("DigitalDisco.ttf"), 32, FlxColor.WHITE, RIGHT);
 		// scoreText.alignment = RIGHT;
+		fctoggleText = new FlxText(FlxG.width * 0.7, 100, 0, "bruh", 32);
+		// scoreText.autoSize = false;
+		fctoggleText.setFormat(Paths.font("DigitalDisco.ttf"), 32, FlxColor.WHITE, RIGHT);
 
-		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
+		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 160, 0xFF000000);
 		scoreBG.alpha = 0.6;
 		add(scoreBG);
 
@@ -108,9 +113,10 @@ class FreeplayState extends MusicBeatState
 		add(diffText);
 
 		add(scoreText);
-
+		add(fctoggleText);
 		changeSelection();
 		changeDiff();
+		changeFCMode();
 
 		// FlxG.sound.playMusic(Paths.music('title'), 0);
 		// FlxG.sound.music.fadeIn(2, 0, 0.8);
@@ -181,7 +187,12 @@ class FreeplayState extends MusicBeatState
 		var upP = controls.UP_P;
 		var downP = controls.DOWN_P;
 		var accepted = controls.ACCEPT;
-
+		
+		if (FlxG.keys.justPressed.ALT)
+			{
+				changeFCMode(1);
+				trace(curFCMode + fctoggleText.text);
+			}
 		if (upP)
 		{
 			changeSelection(-1);
@@ -210,6 +221,8 @@ class FreeplayState extends MusicBeatState
 			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = curDifficulty;
+			PlayState.fcMode = curFCMode;
+
 
 			PlayState.storyWeek = songs[curSelected].week;
 			trace('CUR WEEK' + PlayState.storyWeek);
@@ -240,6 +253,30 @@ class FreeplayState extends MusicBeatState
 				diffText.text = "HARD";
 		}
 	}
+	function changeFCMode(change:Int = 0)
+		{
+			curFCMode += change;
+	
+			if (curFCMode < 0)
+				curFCMode = 3;
+			if (curFCMode > 3)
+				curFCMode = 0;
+	
+			#if !switch
+			#end
+	
+			switch (curFCMode)
+			{
+				case 0:
+					fctoggleText.text = "[ALT Key] FC Mode: None";
+				case 1:
+					fctoggleText.text = '[ALT Key] FC Mode: FC';
+				case 2:
+					fctoggleText.text = "[ALT Key] FC Mode: GFC";
+				case 3:
+					fctoggleText.text = "[ALT Key] FC Mode: MFC";
+			}
+		}
 
 	function changeSelection(change:Int = 0)
 	{

@@ -54,6 +54,7 @@ class PlayState extends MusicBeatState
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 1;
+	public static var fcMode:Int = 0;
 	public static var weekSong:Int = 0;
 	public static var shits:Int = 0;
 	public static var bads:Int = 0;
@@ -847,7 +848,7 @@ class PlayState extends MusicBeatState
 		add(healthBar);
 
 		// Add Kade Engine watermark
-		var kadeEngineWatermark = new FlxText(4,healthBarBG.y + 50,0,SONG.song + " " + (storyDifficulty == 2 ? "Hard" : storyDifficulty == 1 ? "Normal" : "Easy") + " - KE " + MainMenuState.kadeEngineVer + " - " + (FlxG.save.data.etternaMode ? "E.Mode" : "FNF"), 16);
+		var kadeEngineWatermark = new FlxText(4,healthBarBG.y + 50,0,SONG.song + " " + (storyDifficulty == 2 ? "Hard" : storyDifficulty == 1 ? "Normal" : "Easy") + " - FW " + MainMenuState.kadeEngineVer + (FlxG.save.data.etternaMode ? " - E.Mode" : "") + (fcMode == 3 ? " - MFC Mode" : fcMode == 2 ? " - GFC Mode" : fcMode == 1 ? " - FC Mode" : ""), 16);
 		kadeEngineWatermark.setFormat(Paths.font("DigitalDisco.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		kadeEngineWatermark.scrollFactor.set();
 		add(kadeEngineWatermark);
@@ -857,7 +858,7 @@ class PlayState extends MusicBeatState
 
 		scoreTxt = new FlxText(FlxG.width / 2 - 235, healthBarBG.y + 50, 0, "", 20);
 		if (!FlxG.save.data.accuracyDisplay)
-			//scoreTxt.x = healthBarBG.x + healthBarBG.width / 2;
+			scoreTxt.x = healthBarBG.x + healthBarBG.width / 2;
 		scoreTxt.setFormat(Paths.font("DigitalDisco.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		if (offsetTesting)
@@ -1538,11 +1539,29 @@ class PlayState extends MusicBeatState
 		if (misses == 0 && bads == 0 && shits == 0 && goods == 0) // Marvelous (SICK) Full Combo
 			ranking = "(MFC)";
 		else if (misses == 0 && bads == 0 && shits == 0 && goods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
+			{
 			ranking = "(GFC)";
+			if (fcMode > 2) // MFC
+				{
+				FlxG.resetState();
+				}
+			}
 		else if (misses == 0) // Regular FC
+			{
 			ranking = "(FC)";
+			if (fcMode > 1) // GFC -> MFC
+				{
+				FlxG.resetState();
+				}
+			}
 		else if (misses < 10) // Single Digit Combo Breaks
+			{
 			ranking = "(SDCB)";
+			if (fcMode > 0) // FC -> MFC
+				{
+				FlxG.resetState();
+				}
+			}
 		else
 			ranking = "(Clear)";
 
@@ -2615,6 +2634,7 @@ class PlayState extends MusicBeatState
 									daNote.rating = "bad";
 								else if (noteDiff > Conductor.safeZoneOffset * 0.45 || noteDiff < Conductor.safeZoneOffset * -0.45)
 									daNote.rating = "good";
+									
 								else if (noteDiff < Conductor.safeZoneOffset * 0.44 && noteDiff > Conductor.safeZoneOffset * -0.44)
 									daNote.rating = "sick";
 
@@ -2923,7 +2943,9 @@ class PlayState extends MusicBeatState
 	function updateAccuracy() 
 		{
 			if (misses > 0 || accuracy < 96)
+				{
 				fc = false;
+				}
 			else
 				fc = true;
 			totalPlayed += 1;
