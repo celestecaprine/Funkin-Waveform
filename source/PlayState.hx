@@ -2121,6 +2121,7 @@ class PlayState extends MusicBeatState
 
 	function endSong():Void
 	{
+	fcMode = 0;
 		if (!loadRep)
 			rep.SaveReplay();
 
