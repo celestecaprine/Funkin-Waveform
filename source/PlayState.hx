@@ -108,7 +108,9 @@ class PlayState extends MusicBeatState
 	private var combo:Int = 0;
 	public static var misses:Int = 0;
 	private var accuracy:Float = 0.00;
+	private var accuracyDefault:Float = 0.00;
 	private var totalNotesHit:Float = 0;
+	private var totalNotesHitDefault:Float = 0;
 	private var totalPlayed:Int = 0;
 	private var ss:Bool = false;
 
@@ -155,6 +157,7 @@ class PlayState extends MusicBeatState
 
 	var talking:Bool = true;
 	var songScore:Int = 0;
+	var songScoreDef:Int = 0;
 	var scoreTxt:FlxText;
 	var replayTxt:FlxText;
 
@@ -182,13 +185,6 @@ class PlayState extends MusicBeatState
 	override public function create()
 	{
 
-		if (FlxG.save.data.etternaMode)
-			Conductor.safeFrames = 5; // 116ms hit window (j3-4)
-		else
-			Conductor.safeFrames = 10; // 166ms hit window (j1)
-
-
-		theFunne = FlxG.save.data.newInput;
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
@@ -285,8 +281,6 @@ class PlayState extends MusicBeatState
 				];
 			case 'goat':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('goat/goatDialogue'));
-			case 'tuesday':
-				dialogue = CoolUtil.coolTextFile(Paths.txt('tuesday/tuesdayDialogue'));
 			case 'senpai':
 				dialogue = CoolUtil.coolTextFile(Paths.txt('senpai/senpaiDialogue'));
 			case 'roses':
@@ -652,7 +646,6 @@ class PlayState extends MusicBeatState
 
 		switch (curStage)
 		{
-			
 			case 'limo':
 				gfVersion = 'gf-car';
 			case 'mall' | 'mallEvil':
@@ -661,8 +654,6 @@ class PlayState extends MusicBeatState
 				gfVersion = 'gf-pixel';
 			case 'schoolEvil':
 				gfVersion = 'gf-pixel';
-			case 'booth':
-				gfVersion = 'gf-null';
 		}
 
 		if (curStage == 'limo')
@@ -944,8 +935,6 @@ class PlayState extends MusicBeatState
 				case 'thorns':
 					schoolIntro(doof);
 				case 'goat':
-					mainIntro(doof);
-				case 'tuesday':
 					mainIntro(doof);
 				default:
 					startCountdown();
@@ -1281,7 +1270,9 @@ class PlayState extends MusicBeatState
 
 			for (songNotes in section.sectionNotes)
 			{
-				var daStrumTime:Float = songNotes[0];
+				var daStrumTime:Float = songNotes[0] + FlxG.save.data.offset;
+				if (daStrumTime < 0)
+					daStrumTime = 0;
 				var daNoteData:Int = Std.int(songNotes[1] % 4);
 
 				var gottaHitNote:Bool = section.mustHitSection;
@@ -1689,7 +1680,7 @@ class PlayState extends MusicBeatState
 		{
 			if (FlxG.save.data.accuracyDisplay)
 			{
-				scoreTxt.text = (FlxG.save.data.npsDisplay ? "NPS: " + nps + " | " : "") + "Score:" + (FlxG.save.data.etternaMode ? Math.max(0,etternaModeScore) + " (" + songScore + ")" : "" + songScore) + " | Combo Breaks:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "% | " + generateRanking();
+				scoreTxt.text = (FlxG.save.data.npsDisplay ? "NPS: " + nps + " | " : "") + "Score:" + (Conductor.safeFrames != 10 ? songScore + " (" + songScoreDef + ")" : "" + songScore) + " | Combo Breaks:" + misses + " | Accuracy:" + truncateFloat(accuracy, 2) + "% | " + generateRanking();
 			}
 			else
 			{
@@ -2224,8 +2215,8 @@ class PlayState extends MusicBeatState
 
 	private function popUpScore(daNote:Note):Void
 		{
-			var noteDiff:Float = Math.abs(daNote.strumTime - Conductor.songPosition);
-			var wife:Float = EtternaFunctions.wife3(noteDiff, FlxG.save.data.etternaMode ? 1 : 1.7);
+			var noteDiff:Float = Math.abs(Conductor.songPosition - daNote.strumTime);
+			var wife:Float = EtternaFunctions.wife3(noteDiff, Conductor.timeScale);
 			// boyfriend.playAnim('hey');
 			vocals.volume = 1;
 	
@@ -2241,7 +2232,8 @@ class PlayState extends MusicBeatState
 			var rating:FlxSprite = new FlxSprite();
 			var score:Float = 350;
 
-			totalNotesHit += wife;
+			if (FlxG.save.data.accuracyMod == 1)
+				totalNotesHit += wife;
 
 			var daRating = daNote.rating;
 
@@ -2254,12 +2246,16 @@ class PlayState extends MusicBeatState
 					health -= 0.2;
 					ss = false;
 					shits++;
+					if (FlxG.save.data.accuracyMod == 0)
+						totalNotesHit += 0.25;
 				case 'bad':
 					daRating = 'bad';
 					score = 0;
 					health -= 0.06;
 					ss = false;
 					bads++;
+					if (FlxG.save.data.accuracyMod == 0)
+						totalNotesHit += 0.50;
 				case 'good':
 					daRating = 'good';
 					score = 200;
@@ -2267,14 +2263,15 @@ class PlayState extends MusicBeatState
 					goods++;
 					if (health < 2)
 						health += 0.04;
+					if (FlxG.save.data.accuracyMod == 0)
+						totalNotesHit += 0.75;
 				case 'sick':
 					if (health < 2)
 						health += 0.1;
+					if (FlxG.save.data.accuracyMod == 0)
+						totalNotesHit += 1;
 					sicks++;
 			}
-
-			if (FlxG.save.data.etternaMode)
-				etternaModeScore += Math.round(score / wife);
 
 			// trace('Wife accuracy loss: ' + wife + ' | Rating: ' + daRating + ' | Score: ' + score + ' | Weight: ' + (1 - wife));
 
@@ -2283,6 +2280,7 @@ class PlayState extends MusicBeatState
 	
 	
 			songScore += Math.round(score);
+			songScoreDef += Math.round(ConvertScore.convertScore(noteDiff));
 	
 			/* if (combo > 60)
 					daRating = 'sick';
@@ -2629,15 +2627,7 @@ class PlayState extends MusicBeatState
 							{
 								var noteDiff:Float = Math.abs(daNote.strumTime - Conductor.songPosition);
 
-								if (noteDiff > Conductor.safeZoneOffset * 0.70 || noteDiff < Conductor.safeZoneOffset * -0.70)
-									daNote.rating = "shit";
-								else if (noteDiff > Conductor.safeZoneOffset * 0.50 || noteDiff < Conductor.safeZoneOffset * -0.50)
-									daNote.rating = "bad";
-								else if (noteDiff > Conductor.safeZoneOffset * 0.45 || noteDiff < Conductor.safeZoneOffset * -0.45)
-									daNote.rating = "good";
-									
-								else if (noteDiff < Conductor.safeZoneOffset * 0.44 && noteDiff > Conductor.safeZoneOffset * -0.44)
-									daNote.rating = "sick";
+								daNote.rating = Ratings.CalculateRating(noteDiff);
 
 								if (NearlyEquals(daNote.strumTime,rep.replay.keyPresses[repPresses].time, 30))
 								{
@@ -2687,14 +2677,7 @@ class PlayState extends MusicBeatState
 							{
 								var noteDiff:Float = Math.abs(daNote.strumTime - Conductor.songPosition);
 
-								if (noteDiff > Conductor.safeZoneOffset * 0.70 || noteDiff < Conductor.safeZoneOffset * -0.70)
-									daNote.rating = "shit";
-								else if (noteDiff > Conductor.safeZoneOffset * 0.50 || noteDiff < Conductor.safeZoneOffset * -0.50)
-									daNote.rating = "bad";
-								else if (noteDiff > Conductor.safeZoneOffset * 0.45 || noteDiff < Conductor.safeZoneOffset * -0.45)
-									daNote.rating = "good";
-								else if (noteDiff < Conductor.safeZoneOffset * 0.44 && noteDiff > Conductor.safeZoneOffset * -0.44)
-									daNote.rating = "sick";
+								daNote.rating = Ratings.CalculateRating(noteDiff);
 
 								goodNoteHit(daNote);
 								trace('force note hit');
@@ -2897,7 +2880,8 @@ class PlayState extends MusicBeatState
 			var noteDiff:Float = Math.abs(daNote.strumTime - Conductor.songPosition);
 			var wife:Float = EtternaFunctions.wife3(noteDiff, FlxG.save.data.etternaMode ? 1 : 1.7);
 
-			totalNotesHit += wife;
+			if (FlxG.save.data.accuracyMod == 1)
+				totalNotesHit += wife;
 
 			songScore -= 10;
 
@@ -2943,14 +2927,9 @@ class PlayState extends MusicBeatState
 	*/
 	function updateAccuracy() 
 		{
-			if (misses > 0 || accuracy < 96)
-				{
-				fc = false;
-				}
-			else
-				fc = true;
 			totalPlayed += 1;
 			accuracy = Math.max(0,totalNotesHit / totalPlayed * 100);
+			accuracyDefault = Math.max(0, totalNotesHitDefault / totalPlayed * 100);
 		}
 
 
@@ -3039,14 +3018,7 @@ class PlayState extends MusicBeatState
 
 				var noteDiff:Float = Math.abs(note.strumTime - Conductor.songPosition);
 
-				if (noteDiff > Conductor.safeZoneOffset * 0.70 || noteDiff < Conductor.safeZoneOffset * -0.70)
-					note.rating = "shit";
-				else if (noteDiff > Conductor.safeZoneOffset * 0.50 || noteDiff < Conductor.safeZoneOffset * -0.50)
-					note.rating = "bad";
-				else if (noteDiff > Conductor.safeZoneOffset * 0.45 || noteDiff < Conductor.safeZoneOffset * -0.45)
-					note.rating = "good";
-				else if (noteDiff < Conductor.safeZoneOffset * 0.44 && noteDiff > Conductor.safeZoneOffset * -0.44)
-					note.rating = "sick";
+				note.rating = Ratings.CalculateRating(noteDiff);
 
 				if (!note.isSustainNote)
 					notesHitArray.push(Date.now());
