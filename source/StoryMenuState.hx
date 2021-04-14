@@ -22,12 +22,15 @@ using StringTools;
 class StoryMenuState extends MusicBeatState
 {
 	var scoreText:FlxText;
+	var fctoggleText:FlxText;
+
 
 	var weekData:Array<Dynamic> = [
 		['Tutorial'],
 		['goat']
 	];
 	var curDifficulty:Int = 1;
+	var curFCMode:Int = 0;
 
 	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true, true];
 
@@ -153,6 +156,7 @@ class StoryMenuState extends MusicBeatState
 		sprDifficulty.animation.addByPrefix('hard', 'HARD');
 		sprDifficulty.animation.play('easy');
 		changeDifficulty();
+		
 
 		difficultySelectors.add(sprDifficulty);
 
@@ -177,6 +181,13 @@ class StoryMenuState extends MusicBeatState
 		add(scoreText);
 		add(txtWeekTitle);
 
+		fctoggleText = new FlxText(FlxG.width * 0.7, 100, 0, "bruh", 32);
+		fctoggleText.setFormat(Paths.font("DigitalDisco.ttf"), 32, FlxColor.WHITE, CENTER);
+		fctoggleText.size = scoreText.size;
+		fctoggleText.y = scoreText.y;
+		fctoggleText.screenCenter(X);
+		add(fctoggleText);
+		changeFCMode();
 		updateText();
 
 		trace("Line 165");
@@ -231,11 +242,18 @@ class StoryMenuState extends MusicBeatState
 					changeDifficulty(1);
 				if (controls.LEFT_P)
 					changeDifficulty(-1);
+				if (FlxG.keys.justPressed.ALT)
+					{
+						changeFCMode(1);
+						trace(curFCMode + fctoggleText.text);
+					}
 			}
+				
 
 			if (controls.ACCEPT)
 			{
 				selectWeek();
+				PlayState.fcMode = curFCMode;
 			}
 		}
 
@@ -328,6 +346,32 @@ class StoryMenuState extends MusicBeatState
 
 		FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
 	}
+
+	function changeFCMode(change:Int = 0)
+		{
+			curFCMode += change;
+	
+			if (curFCMode < 0)
+				curFCMode = 3;
+			if (curFCMode > 3)
+				curFCMode = 0;
+	
+			#if !switch
+			#end
+	
+			switch (curFCMode)
+			{
+				case 0:
+					fctoggleText.text = "[ALT Key] FC Mode: None";
+				case 1:
+					fctoggleText.text = '[ALT Key] FC Mode: FC';
+				case 2:
+					fctoggleText.text = "[ALT Key] FC Mode: GFC";
+				case 3:
+					fctoggleText.text = "[ALT Key] FC Mode: MFC";
+			}
+			fctoggleText.screenCenter(X);
+		}
 
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
