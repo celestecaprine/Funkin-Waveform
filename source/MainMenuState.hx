@@ -36,7 +36,7 @@ class MainMenuState extends MusicBeatState
 	var newGaming2:FlxText;
 	var newInput:Bool = true;
 
-	public static var kadeEngineVer:String = "1.0.0-alpha";
+	public static var kadeEngineVer:String = "1.1.0-alpha";
 	public static var gameVer:String = "0.2.7.1";
 
 	var magenta:FlxSprite;

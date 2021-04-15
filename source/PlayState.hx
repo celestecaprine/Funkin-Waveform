@@ -130,6 +130,10 @@ class PlayState extends MusicBeatState
 	public static var offsetTesting:Bool = false;
 
 
+	var p1Color:FlxColor;
+	var p2Color:FlxColor;
+	
+
 	var notesHitArray:Array<Date> = [];
 	var currentFrames:Int = 0;
 
@@ -613,6 +617,7 @@ class PlayState extends MusicBeatState
 			boothFront.scrollFactor.set(0.9, 0.9);
 			boothFront.active = false;
 			add(boothFront);
+			//gf.visible = false;
 			}
 			default:
 			{
@@ -669,6 +674,7 @@ class PlayState extends MusicBeatState
 		switch (SONG.player2)
 		{
 			case 'gf':
+				p2Color = 0xFFA5004D;
 				dad.setPosition(gf.x, gf.y);
 				gf.visible = false;
 				if (isStoryMode)
@@ -685,6 +691,7 @@ class PlayState extends MusicBeatState
 				dad.y += 130;
 			case 'dad':
 				camPos.x += 400;
+				p2Color = 0xFFAF66CE;
 			case 'pico':
 				camPos.x += 600;
 				dad.y += 300;
@@ -704,7 +711,7 @@ class PlayState extends MusicBeatState
 				camPos.set(dad.getGraphicMidpoint().x + 300, dad.getGraphicMidpoint().y);
 		}
 
-
+		p1Color = 0xFF31B0D1;
 		
 		boyfriend = new Boyfriend(770, 450, SONG.player1);
 
@@ -746,6 +753,8 @@ class PlayState extends MusicBeatState
 
 		add(gf);
 
+		if (curStage == 'booth')
+			gf.visible = false;
 		// Shitty layering but whatev it works LOL
 		if (curStage == 'limo')
 			add(limo);
@@ -834,7 +843,7 @@ class PlayState extends MusicBeatState
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'health', 0, 2);
 		healthBar.scrollFactor.set();
-		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
+		healthBar.createFilledBar(p2Color, p1Color);
 		// healthBar
 		add(healthBar);
 
