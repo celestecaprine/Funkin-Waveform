@@ -133,7 +133,8 @@ class PlayState extends MusicBeatState
 
 	var p1Color:FlxColor;
 	var p2Color:FlxColor;
-	
+	var isbeingpunishedforhisRappingcrimes:Bool;
+	var tumbleTween:FlxTween;
 
 	var notesHitArray:Array<Date> = [];
 	var currentFrames:Int = 0;
@@ -154,6 +155,8 @@ class PlayState extends MusicBeatState
 	var upperBoppers:FlxSprite;
 	var bottomBoppers:FlxSprite;
 	var santa:FlxSprite;
+	var tumbleDryer:FlxSprite;
+	var tumbleDryerBG:FlxSprite;
 
 	var fc:Bool = true;
 
@@ -189,7 +192,7 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-
+		isbeingpunishedforhisRappingcrimes = false;
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
@@ -1992,20 +1995,28 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-/*  		if (curSong == 'GOAT')
+  		if (FlxG.keys.justPressed.NUMPADPERIOD)
 			{
-				switch (curBeat)
+				switch (isbeingpunishedforhisRappingcrimes)
 				{
-					case 32:
+				case(true):
 					{
-					dad.alpha = 0.5;
-					//camHUD.shake(0.05, 0);
-					var dadPath:Array<FlxPoint> = [FlxPoint.get(dad.x, dad.y), FlxPoint.get(dad.x + 100, dad.y), FlxPoint.get(dad.x + 100, dad.y + 100)];
-					FlxTween.linearPath(dad, dadPath, 5, true, {ease: FlxEase.sineInOut});
+					tumbleTween.cancel();
+					remove(tumbleDryer);
+					boyfriend.angle = 0;
+					isbeingpunishedforhisRappingcrimes = false;
+					}
+				case(false):
+					{
+					tumbleDryer = new FlxSprite(boyfriend.x, boyfriend.y, Paths.image('tumbleDryer'));
+					add(tumbleDryer);
+					tumbleDryer.setPosition(boyfriend.x - (tumbleDryer.width / 2) + 220, boyfriend.y - (tumbleDryer.height / 2) + 220);
+					tumbleTween = FlxTween.angle(boyfriend, 0, 900, 1, {ease: FlxEase.sineInOut, type:PINGPONG});
+					isbeingpunishedforhisRappingcrimes = true;
 					}
 				}
-				}
-		 */
+			}
+		 
 		if (health <= 0)
 		{
 			boyfriend.stunned = true;
