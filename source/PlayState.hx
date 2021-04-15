@@ -1,5 +1,6 @@
 package;
 
+import flixel.util.FlxPath;
 import openfl.Lib;
 import Section.SwagSection;
 import Song.SwagSong;
@@ -1951,7 +1952,7 @@ class PlayState extends MusicBeatState
 			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, 0.95);
 			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, 0.95);
 		}
-
+		FlxG.watch.addQuick("daSong", curSong);
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
 		if (loadRep) // rep debug
@@ -1991,6 +1992,20 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+/*  		if (curSong == 'GOAT')
+			{
+				switch (curBeat)
+				{
+					case 32:
+					{
+					dad.alpha = 0.5;
+					//camHUD.shake(0.05, 0);
+					var dadPath:Array<FlxPoint> = [FlxPoint.get(dad.x, dad.y), FlxPoint.get(dad.x + 100, dad.y), FlxPoint.get(dad.x + 100, dad.y + 100)];
+					FlxTween.linearPath(dad, dadPath, 5, true, {ease: FlxEase.sineInOut});
+					}
+				}
+				}
+		 */
 		if (health <= 0)
 		{
 			boyfriend.stunned = true;
